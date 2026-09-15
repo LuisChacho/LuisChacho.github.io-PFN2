@@ -3,120 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación Preuniversitaria - Razonamiento Numérico (50 Preguntas)</title>
+    <title>EVALUACIÓN DIAGNÓSTICA - RAZONAMIENTO NUMÉRICO (50 REACTIVOS)</title>
     
-    <!-- CSS de KaTeX -->
+    <!-- KaTeX CSS & JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <!-- Estilos de la Plataforma -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- JS de KaTeX y Auto-Render -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
 
-    <!-- JS Principal de la Evaluación -->
+    <!-- Estilos locales -->
+    <link rel="stylesheet" href="index.css">
+    <!-- Script principal -->
     <script defer src="index.js"></script>
 </head>
-<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+<body>
 
-    <!-- PANTALLA DE BLOQUEO / INICIO EN PANTALLA COMPLETA -->
-    <div id="fullscreen-overlay" class="overlay">
-        <div class="overlay-card">
-            <h2>EVALUACIÓN DE RAZONAMIENTO NUMÉRICO</h2>
-            <p><strong>Nivel Preuniversitario / BGU (50 Reactivos)</strong></p>
-            <div class="security-rules">
-                <p>⚠️ <strong>NORMAS DE SEGURIDAD ACTIVAS:</strong></p>
-                <ul>
-                    <li>Tiempo límite: <strong>60 minutos</strong>.</li>
-                    <li>La prueba se ejecuta obligatoriamente en <strong>Pantalla Completa</strong>.</li>
-                    <li>Prohibido cambiar de pestaña o salir del navegador (se registrará como infracción).</li>
-                    <li>Atajos de teclado, inspección F12 y clic derecho bloqueados.</li>
-                </ul>
-            </div>
-            <button id="btn-start-fullscreen" class="btn-primary">Iniciar Evaluación en Pantalla Completa</button>
-        </div>
+    <!-- Overlay Pantalla Completa -->
+    <div id="fullscreen-overlay">
+        <h1>EVALUACIÓN DIAGNÓSTICA - TIPO UNL</h1>
+        <p>Prueba Final de Razonamiento Numérico Avanzado (50 Preguntas).<br>Esta evaluación se ejecuta en <strong>Modo Kiosko Seguro</strong>. Se requiere acceso a pantalla completa y se supervisarán los cambios de pestaña.</p>
+        <button class="btn-start" id="btn-start-fullscreen">Ingresar / Reanudar Examen</button>
     </div>
 
-    <!-- ALERTA DE INFRACCIÓN -->
-    <div id="infraction-banner" class="alert-banner" style="display: none;">
-        ⚠️ <strong>¡INFRACCIÓN DE SEGURIDAD DETECTADA!</strong> Se ha registrado una salida de foco o cambio de pestaña.
+    <!-- App Main Container -->
+    <div id="app-container">
+        <header>
+            <div class="header-title">
+                <h2>RAZONAMIENTO NUMÉRICO AVANZADO</h2>
+                <span>EVALUACIÓN ESTANDARIZADA BGU / PREUNIVERSITARIO UNL</span>
+            </div>
+            <div class="timer-badge" id="timer-display">
+                ⏱️ <span id="timer">60:00</span>
+            </div>
+        </header>
+
+        <div class="dashboard-body" id="exam-screen">
+            <main>
+                <div>
+                    <div id="infraction-banner">
+                        ⚠️ REGISTRO DE INFRACCIÓN: Se ha detectado una salida del entorno seguro o cambio de pestaña.
+                    </div>
+
+                    <div class="question-card">
+                        <div class="question-meta">
+                            <span id="question-number">Pregunta 01 de 50</span>
+                            <span id="question-topic">Tema: Simplificación</span>
+                        </div>
+                        <div class="question-text" id="question-text"></div>
+                        <div class="options-group" id="options-container"></div>
+                    </div>
+                </div>
+
+                <div class="navigation-controls">
+                    <button class="btn-nav" id="btn-prev">Anterior</button>
+                    <button class="btn-nav" id="btn-next">Siguiente</button>
+                </div>
+            </main>
+
+            <aside>
+                <div>
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Avance del Examen</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid-title">Mapa de Reactivos (50)</div>
+                    <div class="reactive-grid" id="reactive-grid"></div>
+                </div>
+
+                <button class="btn-finish" id="btn-finish-exam">Finalizar Examen</button>
+            </aside>
+        </div>
+
+        <!-- Pantalla de Resultados -->
+        <div id="results-screen">
+            <div class="results-container">
+                <h1 style="margin-bottom: 20px; color: var(--primary);">Reporte de Resultados</h1>
+                
+                <div class="score-cards">
+                    <div class="card-stat">
+                        <h3>Puntaje Obtenido</h3>
+                        <div class="value" id="res-score">0/50</div>
+                    </div>
+                    <div class="card-stat">
+                        <h3>Porcentaje de Acierto</h3>
+                        <div class="value" id="res-accuracy">0%</div>
+                    </div>
+                    <div class="card-stat">
+                        <h3>Infracciones Registradas</h3>
+                        <div class="value" style="color: var(--danger);" id="res-infractions">0</div>
+                    </div>
+                </div>
+
+                <div class="review-section">
+                    <h2 style="margin-bottom: 15px; font-size: 1.2rem;">Revisión Detallada de Preguntas</h2>
+                    <div id="review-list"></div>
+                </div>
+
+                <button class="btn-restart" id="btn-restart-exam">Iniciar Nuevo Intento</button>
+            </div>
+        </div>
     </div>
-
-    <!-- BARRA SUPERIOR Y TEMPORIZADOR -->
-    <header class="navbar">
-        <div class="nav-brand">Módulo de Evaluación Numérica</div>
-        <div id="timer-display" class="badge-timer">
-            Tiempo restante: <span id="timer">60:00</span>
-        </div>
-    </header>
-
-    <!-- PANTALLA PRINCIPAL DE EXAMEN -->
-    <main id="exam-screen" class="main-layout">
-        <!-- COLUMNA IZQUIERDA: CONTENEDOR DEL REACTIVO -->
-        <section class="question-container">
-            <div class="question-header">
-                <span id="question-number" class="q-badge">Pregunta 01 de 50</span>
-                <span id="question-topic" class="q-topic">Cargando tema...</span>
-            </div>
-            
-            <div id="question-text" class="q-text">
-                Cargando reactivo...
-            </div>
-
-            <div id="options-container" class="options-list">
-                <!-- Opciones dinámicas generadas desde JS -->
-            </div>
-
-            <div class="question-footer">
-                <button id="btn-prev" class="btn-secondary" disabled>Anterior</button>
-                <button id="btn-next" class="btn-secondary">Siguiente</button>
-            </div>
-        </section>
-
-        <!-- COLUMNA DERECHA: MAPA DE REACTIVOS Y PROGRESO -->
-        <aside class="sidebar">
-            <h3>Progreso del Examen</h3>
-            <div class="progress-bar-container">
-                <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
-            </div>
-            <p class="progress-text"><span id="progress-percent">0%</span> completado</p>
-
-            <h3>Navegador de Preguntas</h3>
-            <div id="reactive-grid" class="reactive-grid">
-                <!-- Se generan dinámicamente los 50 botones -->
-            </div>
-
-            <button id="btn-finish-exam" class="btn-danger">Finalizar y Entregar Prueba</button>
-        </aside>
-    </main>
-
-    <!-- PANTALLA DE RESULTADOS / REPORTE FINAL -->
-    <section id="results-screen" class="results-layout" style="display: none;">
-        <div class="results-card">
-            <h2>Resumen de la Evaluación</h2>
-            <div class="metrics-grid">
-                <div class="metric">
-                    <span class="metric-label">Puntaje Obtenido</span>
-                    <span id="res-score" class="metric-val">0/50</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Efectividad</span>
-                    <span id="res-accuracy" class="metric-val">0%</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Infracciones Registradas</span>
-                    <span id="res-infractions" class="metric-val">0</span>
-                </div>
-            </div>
-
-            <h3>Revisión Detallada de Reactivos</h3>
-            <div id="review-list" class="review-list">
-                <!-- Generación de reporte final -->
-            </div>
-
-            <button id="btn-restart-exam" class="btn-primary" style="margin-top: 20px;">Realizar Nueva Prueba</button>
-        </div>
-    </section>
 
 </body>
 </html>
