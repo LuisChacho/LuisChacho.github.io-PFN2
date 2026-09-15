@@ -4,7 +4,7 @@ const questionsData = [
     { 
         id: 1, 
         topic: "Simplificación Avanzada y Radicación", 
-        text: "Simplifique la siguiente expresión exponencial para $x, y \neq 0$: $$\\left( \\frac{16x^{-4} y^6}{81x^8 y^{-2}} \\right)^{-3/4}$$", 
+        text: "Simplifique la siguiente expresión exponencial para $x, y \\neq 0$: $$\\left( \\frac{16x^{-4} y^6}{81x^8 y^{-2}} \\right)^{-3/4}$$", 
         options: ["$\\frac{27x^9}{8y^6}$", "$\\frac{8x^9}{27y^6}$", "$\\frac{27x^3}{8y^3}$", "$\\frac{8x^3}{27y^3}$"], 
         correct: 0 
     },
@@ -18,14 +18,14 @@ const questionsData = [
     { 
         id: 3, 
         topic: "Simplificación Avanzada y Radicación", 
-        text: "Racionalice el denominador y simplifique al máximo: $$\\frac{6}{\\sqrt{5} + \\sqrt{3} - \\sqrt{2}}$$";, 
+        text: "Racionalice el denominador y simplifique al máximo: $$\\frac{6}{\\sqrt{5} + \\sqrt{3} - \\sqrt{2}}$$ ", 
         options: ["$\\frac{\\sqrt{30} + 3\\sqrt{2} + 2\\sqrt{3}}{2}$", "$\\sqrt{5} + \\sqrt{3} + \\sqrt{2}$", "$\\frac{\\sqrt{30} - 3\\sqrt{2} + 2\\sqrt{3}}{4}$", "$\\sqrt{30} + \\sqrt{2}$"], 
         correct: 0 
     },
     { 
         id: 4, 
         topic: "Simplificación Avanzada y Radicación", 
-        text: "Simplifique la siguiente suma exponencial: $$\\frac{2^{n+4} - 2 \\cdot 2^n}{2 \\cdot 2^{n+3}}$$";, 
+        text: "Simplifique la siguiente suma exponencial: $$\\frac{2^{n+4} - 2 \\cdot 2^n}{2 \\cdot 2^{n+3}}$$ ", 
         options: ["$\\frac{7}{8}$", "$\\frac{14}{8}$", "$\\frac{3}{4}$", "$1$"], 
         correct: 0 
     },
@@ -34,7 +34,7 @@ const questionsData = [
     { 
         id: 5, 
         topic: "Jerarquía de Operadores Complejos", 
-        text: "Evalúe el resultado de la siguiente expresión con fracciones continuas: $$2 - \\cfrac{1}{2 - \\cfrac{1}{2 - \\cfrac{1}{2}}}$$";, 
+        text: "Evalúe el resultado de la siguiente expresión con fracciones continuas: $$2 - \\cfrac{1}{2 - \\cfrac{1}{2 - \\cfrac{1}{2}}}$$ ", 
         options: ["$\\frac{4}{3}$", "$\\frac{3}{2}$", "$\\frac{5}{3}$", "$\\frac{3}{4}$"], 
         correct: 0 
     },
@@ -78,7 +78,7 @@ const questionsData = [
     { 
         id: 11, 
         topic: "Expresiones Algebraicas y Factorización", 
-        text: "Simplifique la suma de fracciones algebraicas: $$\\frac{x+1}{x^2-x-6} + \frac{x-2}{x^2-4x+3}$$", 
+        text: "Simplifique la suma de fracciones algebraicas: $$\\frac{x+1}{x^2-x-6} + \\frac{x-2}{x^2-4x+3}$$", 
         options: ["$\\frac{2x^2-4x-5}{(x-3)(x+2)(x-1)}$", "$\\frac{2x+1}{(x-3)(x+2)}$", "$\\frac{2x^2+1}{(x-3)(x-1)}$", "$\\frac{x-1}{(x+2)(x-1)}$"], 
         correct: 0 
     },
@@ -293,7 +293,7 @@ const questionsData = [
     { 
         id: 40, 
         topic: "Porcentajes y Proporcionalidad", 
-        text: "Si el $a\\%$ de $b$ es $c$, y el $b\\%$ de $c$ es $a$, determine la relación correcta entre $b$ y $100$ (para $a,c \neq 0$):", 
+        text: "Si el $a\\%$ de $b$ es $c$, y el $b\\%$ de $c$ es $a$, determine la relación correcta entre $b$ y $100$ (para $a,c \\neq 0$):", 
         options: ["$b = 100$", "$b = 10$", "$b = 50$", "$b = 200$"], 
         correct: 0 
     },
@@ -375,7 +375,7 @@ const questionsData = [
 
 // CONFIGURACIÓN DE EXAMEN
 const TOTAL_TIME = 60 * 60; // 60 minutos en segundos
-const STORAGE_KEY = "EVAL_NUMERICA_CARIAMANGA_50Q_STATE";
+const STORAGE_KEY = "EVAL_NUMERICA_50Q_STATE_V2";
 
 // ESTADO GLOBAL
 let state = {
@@ -418,7 +418,7 @@ function loadState() {
     }
 }
 
-// EVENT LISTENERS DE BOTONES
+// EVENT LISTENERS
 function setupEventListeners() {
     const btnStart = document.getElementById('btn-start-fullscreen');
     if (btnStart) btnStart.addEventListener('click', initFullscreen);
@@ -436,7 +436,7 @@ function setupEventListeners() {
     if (btnRestart) btnRestart.addEventListener('click', restartExam);
 }
 
-// FULLSCREEN & KIOSKO
+// CAPAS DE SEGURIDAD Y MODO KIOSKO
 function initFullscreen() {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -453,6 +453,7 @@ function initFullscreen() {
 }
 
 function setupSecurity() {
+    // Control de pantalla completa
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement && !state.isFinished) {
             const overlay = document.getElementById('fullscreen-overlay');
@@ -460,15 +461,19 @@ function setupSecurity() {
         }
     });
 
+    // Control de pérdida de foco y cambio de pestaña
     window.addEventListener('visibilitychange', handleSecurityViolation);
     window.addEventListener('blur', handleSecurityViolation);
+    
+    // Bloqueo de menú contextual
     document.addEventListener('contextmenu', e => e.preventDefault());
 
+    // Bloqueo de teclas especiales e inspección
     document.addEventListener('keydown', e => {
         if (
             e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-            (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's' || e.key === 'p')) ||
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+            (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'v' || e.key === 'V' || e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P')) ||
             e.key === 'PrintScreen'
         ) {
             e.preventDefault();
@@ -500,7 +505,7 @@ function preventBackNavigation() {
     };
 }
 
-// TIMER
+// TEMPORIZADOR
 function startTimer() {
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
@@ -610,7 +615,7 @@ function jumpToQuestion(index) {
     renderQuestion();
 }
 
-// MAPA Y PROGRESO
+// MAPA DE REACTIVOS Y NAVEGACIÓN
 function renderGrid() {
     const grid = document.getElementById('reactive-grid');
     if (!grid) return;
@@ -645,7 +650,7 @@ function updateProgress() {
     if (pFill) pFill.style.width = `${pct}%`;
 }
 
-// FINALIZACIÓN
+// FINALIZACIÓN Y REPORTE
 function confirmFinish() {
     const answeredCount = Object.keys(state.answers).length;
     const unanswered = questionsData.length - answeredCount;
