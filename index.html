@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- JS de KaTeX y Auto-Render -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
 
@@ -20,7 +19,7 @@
 </head>
 <body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
-    <!-- PANTALLA DE BLOQUEO / INICIO DE MODOS SEGURIDAD -->
+    <!-- PANTALLA DE BLOQUEO / INICIO EN PANTALLA COMPLETA -->
     <div id="fullscreen-overlay" class="overlay">
         <div class="overlay-card">
             <h2>EVALUACIÓN DE RAZONAMIENTO NUMÉRICO</h2>
@@ -43,7 +42,7 @@
         ⚠️ <strong>¡INFRACCIÓN DE SEGURIDAD DETECTADA!</strong> Se ha registrado una salida de foco o cambio de pestaña.
     </div>
 
-    <!-- NAVEGACIÓN SUPERIOR / CRONÓMETRO -->
+    <!-- BARRA SUPERIOR Y TEMPORIZADOR -->
     <header class="navbar">
         <div class="nav-brand">Módulo de Evaluación Numérica</div>
         <div id="timer-display" class="badge-timer">
@@ -53,7 +52,7 @@
 
     <!-- PANTALLA PRINCIPAL DE EXAMEN -->
     <main id="exam-screen" class="main-layout">
-        <!-- COLUMNA IZQUIERDA: REACTIVO ACTIVO -->
+        <!-- COLUMNA IZQUIERDA: CONTENEDOR DEL REACTIVO -->
         <section class="question-container">
             <div class="question-header">
                 <span id="question-number" class="q-badge">Pregunta 01 de 50</span>
@@ -65,7 +64,7 @@
             </div>
 
             <div id="options-container" class="options-list">
-                <!-- Opciones dinámicas -->
+                <!-- Opciones dinámicas generadas desde JS -->
             </div>
 
             <div class="question-footer">
@@ -84,7 +83,7 @@
 
             <h3>Navegador de Preguntas</h3>
             <div id="reactive-grid" class="reactive-grid">
-                <!-- Mapeo de 50 preguntas -->
+                <!-- Se generan dinámicamente los 50 botones -->
             </div>
 
             <button id="btn-finish-exam" class="btn-danger">Finalizar y Entregar Prueba</button>
@@ -112,7 +111,7 @@
 
             <h3>Revisión Detallada de Reactivos</h3>
             <div id="review-list" class="review-list">
-                <!-- Generación de reporte -->
+                <!-- Generación de reporte final -->
             </div>
 
             <button id="btn-restart-exam" class="btn-primary" style="margin-top: 20px;">Realizar Nueva Prueba</button>
