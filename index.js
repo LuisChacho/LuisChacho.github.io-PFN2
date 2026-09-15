@@ -1,6 +1,6 @@
-// BANCO DE PREGUNTAS - 50 REACTIVOS DE ALTA COMPLEJIDAD
+// BANCO DE PREGUNTAS - 50 REACTIVOS DE ALTA COMPLEJIDAD (BGU / PREUNIVERSITARIO)
 const questionsData = [
-    // Tema 1: Simplificación de expresiones algebraicas, potencias y radicación (4 preguntas)
+    // Tema 1: Simplificación de expresiones algebraicas, potencias y radicación
     { 
         id: 1, 
         topic: "Simplificación Avanzada y Radicación", 
@@ -11,7 +11,7 @@ const questionsData = [
     { 
         id: 2, 
         topic: "Simplificación Avanzada y Radicación", 
-        text: "Determine el valor exacto de la expresión radical anidada: $$\\sqrt{12 + \\sqrt{12 + \\sqrt{12 + \\dots}}}$$", 
+        text: "Determine el valor exacto de la expresión radical infinita anidada: $$\\sqrt{12 + \\sqrt{12 + \\sqrt{12 + \\dots}}}$$", 
         options: ["$4$", "$3$", "$6$", "$2\\sqrt{3}$"], 
         correct: 0 
     },
@@ -30,7 +30,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 2: Jerarquía de operadores complejos (4 preguntas)
+    // Tema 2: Jerarquía de operadores complejos
     { 
         id: 5, 
         topic: "Jerarquía de Operadores Complejos", 
@@ -48,7 +48,7 @@ const questionsData = [
     { 
         id: 7, 
         topic: "Jerarquía de Operadores Complejos", 
-        text: "Calcule la siguiente suma finita de fracciones: $$\\sum_{k=1}^{4} \\frac{1}{k(k+1)} = \\frac{1}{1\\cdot 2} + \\frac{1}{2\\cdot 3} + \\frac{1}{3\\cdot 4} + \\frac{1}{4\\cdot 5}$$", 
+        text: "Calcule la suma finita de fracciones telescópicas: $$\\sum_{k=1}^{4} \\frac{1}{k(k+1)} = \\frac{1}{1\\cdot 2} + \\frac{1}{2\\cdot 3} + \\frac{1}{3\\cdot 4} + \\frac{1}{4\\cdot 5}$$", 
         options: ["$\\frac{4}{5}$", "$\\frac{5}{6}$", "$\\frac{3}{4}$", "$\\frac{9}{10}$"], 
         correct: 0 
     },
@@ -60,7 +60,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 3: Expresiones algebraicas y factorización avanzada (5 preguntas)
+    // Tema 3: Expresiones algebraicas y factorización avanzada
     { 
         id: 9, 
         topic: "Expresiones Algebraicas y Factorización", 
@@ -71,7 +71,7 @@ const questionsData = [
     { 
         id: 10, 
         topic: "Expresiones Algebraicas y Factorización", 
-        text: "Factorice completamente en los números reales: $$x^4 + 4y^4$$", 
+        text: "Factorice completamente en los números reales mediante el artificio de Sophie Germain: $$x^4 + 4y^4$$", 
         options: ["$(x^2 + 2xy + 2y^2)(x^2 - 2xy + 2y^2)$", "$(x^2 + 2y^2)^2$", "$(x^2 - 2y^2)^2$", "$(x^2 + 2xy - 2y^2)(x^2 - 2xy - 2y^2)$"], 
         correct: 0 
     },
@@ -97,11 +97,11 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 4: Ecuaciones de primer grado y planteamientos complejos (6 preguntas)
+    // Tema 4: Ecuaciones de primer grado y planteamientos complejos
     { 
         id: 14, 
         topic: "Ecuaciones y Planteamientos Complejos", 
-        text: "Resuelva para $x$: $$\\frac{x-a}{b+c} + \\frac{x-b}{a+c} + \\frac{x-c}{a+b} = 3$$", 
+        text: "Resuelva para $x$ en la ecuación paramétrica: $$\\frac{x-a}{b+c} + \\frac{x-b}{a+c} + \\frac{x-c}{a+b} = 3$$", 
         options: ["$a + b + c$", "$abc$", "$\\frac{a+b+c}{3}$", "$a + b - c$"], 
         correct: 0 
     },
@@ -129,7 +129,7 @@ const questionsData = [
     { 
         id: 18, 
         topic: "Ecuaciones y Planteamientos Complejos", 
-        text: "En un examen de 50 preguntas, cada respuesta correcta suma 4 puntos, cada respuesta incorrecta resta 2 puntos y las no contestadas restan 1 punto. Un estudiante obtuvo 130 puntos respondiendo 45 preguntas. ¿Cuántas respondió correctamente?", 
+        text: "En un examen de 50 preguntas, cada respuesta correcta suma 4 puntos, cada incorrecta resta 2 puntos y las no contestadas restan 1 punto. Un estudiante obtuvo 130 puntos respondiendo 45 preguntas. ¿Cuántas respondió correctamente?", 
         options: ["$36$", "$38$", "$34$", "$40$"], 
         correct: 0 
     },
@@ -141,7 +141,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 5: Sistemas de ecuaciones de orden superior (3 preguntas)
+    // Tema 5: Sistemas de ecuaciones
     { 
         id: 20, 
         topic: "Sistemas de Ecuaciones", 
@@ -164,7 +164,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 6: Cálculo de edades analítico (4 preguntas)
+    // Tema 6: Cálculo de edades analítico
     { 
         id: 23, 
         topic: "Cálculo de Edades Analítico", 
@@ -194,7 +194,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 7: Razones y proporciones complejas (4 preguntas)
+    // Tema 7: Razones y proporciones complejas
     { 
         id: 27, 
         topic: "Razones y Proporciones", 
@@ -224,7 +224,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 8: Regla de 3 compuesta (4 preguntas)
+    // Tema 8: Regla de 3 compuesta
     { 
         id: 31, 
         topic: "Regla de 3 Compuesta", 
@@ -254,7 +254,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 9: Porcentajes, Mermas e Interés Compuesto/Simple (6 preguntas)
+    // Tema 9: Porcentajes y proporcionalidad
     { 
         id: 35, 
         topic: "Porcentajes y Proporcionalidad", 
@@ -298,7 +298,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 10: Estadísticos y Media Aritmética Ponderada (4 preguntas)
+    // Tema 10: Estadística y media ponderada
     { 
         id: 41, 
         topic: "Estadística y Media Ponderada", 
@@ -328,7 +328,7 @@ const questionsData = [
         correct: 0 
     },
 
-    // Tema 11: Combinatoria, Permutaciones con repetición y Probabilidad (6 preguntas)
+    // Tema 11: Combinatoria avanzada y probabilidad
     { 
         id: 45, 
         topic: "Combinatoria Avanzada", 
@@ -374,8 +374,8 @@ const questionsData = [
 ];
 
 // CONFIGURACIÓN DE EXAMEN
-const TOTAL_TIME = 60 * 60; // 60 minutos en segundos
-const STORAGE_KEY = "EVAL_NUMERICA_50Q_STATE_V2";
+const TOTAL_TIME = 60 * 60; // 60 minutos
+const STORAGE_KEY = "EVAL_NUMERICA_50Q_STATE_V3";
 
 // ESTADO GLOBAL
 let state = {
@@ -388,7 +388,7 @@ let state = {
 
 let timerInterval = null;
 
-// INICIALIZACIÓN
+// INICIALIZACIÓN DE LA PLATAFORMA
 window.addEventListener('DOMContentLoaded', () => {
     loadState();
     renderGrid();
@@ -399,7 +399,6 @@ window.addEventListener('DOMContentLoaded', () => {
     preventBackNavigation();
 });
 
-// PERSISTENCIA EN LOCALSTORAGE
 function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
@@ -413,12 +412,11 @@ function loadState() {
                 showResultsScreen();
             }
         } catch (e) {
-            console.error("Error al cargar el estado previo:", e);
+            console.error("Error al recuperar el estado:", e);
         }
     }
 }
 
-// EVENT LISTENERS
 function setupEventListeners() {
     const btnStart = document.getElementById('btn-start-fullscreen');
     if (btnStart) btnStart.addEventListener('click', initFullscreen);
@@ -453,7 +451,6 @@ function initFullscreen() {
 }
 
 function setupSecurity() {
-    // Control de pantalla completa
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement && !state.isFinished) {
             const overlay = document.getElementById('fullscreen-overlay');
@@ -461,14 +458,10 @@ function setupSecurity() {
         }
     });
 
-    // Control de pérdida de foco y cambio de pestaña
     window.addEventListener('visibilitychange', handleSecurityViolation);
     window.addEventListener('blur', handleSecurityViolation);
-    
-    // Bloqueo de menú contextual
     document.addEventListener('contextmenu', e => e.preventDefault());
 
-    // Bloqueo de teclas especiales e inspección
     document.addEventListener('keydown', e => {
         if (
             e.key === 'F12' ||
@@ -477,14 +470,14 @@ function setupSecurity() {
             e.key === 'PrintScreen'
         ) {
             e.preventDefault();
-            registerInfraction("Atajo de teclado restringido");
+            registerInfraction("Uso de atajo de teclado bloqueado");
         }
     });
 }
 
 function handleSecurityViolation() {
     if (!state.isFinished) {
-        registerInfraction("Cambio de pestaña / Fuga de foco");
+        registerInfraction("Pérdida de foco / Cambio de pestaña");
     }
 }
 
@@ -537,7 +530,7 @@ function updateTimerUI() {
     }
 }
 
-// RENDERIZADO DE PREGUNTAS
+// RENDERIZADO DE PREGUNTAS Y KATEX
 function renderQuestion() {
     const q = questionsData[state.currentIndex];
     const qNum = document.getElementById('question-number');
@@ -615,7 +608,7 @@ function jumpToQuestion(index) {
     renderQuestion();
 }
 
-// MAPA DE REACTIVOS Y NAVEGACIÓN
+// MAPA DE REACTIVOS
 function renderGrid() {
     const grid = document.getElementById('reactive-grid');
     if (!grid) return;
@@ -654,9 +647,9 @@ function updateProgress() {
 function confirmFinish() {
     const answeredCount = Object.keys(state.answers).length;
     const unanswered = questionsData.length - answeredCount;
-    let msg = "¿Está seguro de finalizar la evaluación?";
+    let msg = "¿Está seguro de finalizar y entregar la evaluación?";
     if (unanswered > 0) {
-        msg += `\n⚠️ Tiene ${unanswered} pregunta(s) sin responder.`;
+        msg += `\n⚠️ Advertencia: Tiene ${unanswered} pregunta(s) sin responder.`;
     }
     if (confirm(msg)) {
         finishExam();
@@ -703,8 +696,8 @@ function showResultsScreen() {
 
             item.innerHTML = `
                 ${statusBadge}
-                <div class="q-title">${idx + 1}. ${q.text}</div>
-                <div style="font-size: 0.9rem; color: var(--text-muted);">
+                <div class="q-title"><strong>${idx + 1}.</strong> ${q.text}</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted); margin-top: 8px;">
                     Su respuesta: <strong>${userAns !== undefined ? letters[userAns] + ') ' + q.options[userAns] : 'Ninguna'}</strong><br>
                     Respuesta correcta: <strong style="color: var(--success);">${letters[q.correct]}) ${q.options[q.correct]}</strong>
                 </div>
