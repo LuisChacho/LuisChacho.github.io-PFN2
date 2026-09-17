@@ -1,4 +1,4 @@
-// BANCO DE PREGUNTAS (50 REACTIVOS DE ALTA COMPLEJIDAD TIPO UNL / PREUNIVERSITARIO)
+// BANCO DE 50 PREGUNTAS TIPO UNL / PREUNIVERSITARIO
 const questionsData = [
     // Tema 1: Simplificación y Radicación
     { id: 1, topic: "Simplificación y Radicación", text: "Simplifique la siguiente expresión exponencial para $x, y \\neq 0$: $$\\left( \\frac{16x^{-4} y^6}{81x^8 y^{-2}} \\right)^{-3/4}$$", options: ["$\\frac{27x^9}{8y^6}$", "$\\frac{8x^9}{27y^6}$", "$\\frac{27x^3}{8y^3}$", "$\\frac{8x^3}{27y^3}$"], correct: 0 },
@@ -112,7 +112,7 @@ function loadState() {
                 showResultsScreen();
             }
         } catch (e) {
-            console.error("Error al cargar estado previo:", e);
+            console.error("Error al cargar el estado guardado:", e);
         }
     }
 }
@@ -215,7 +215,7 @@ function updateTimerUI() {
     }
 }
 
-// RENDERIZADO
+// RENDERIZADO DE PREGUNTAS
 function renderQuestion() {
     const q = questionsData[state.currentIndex];
     document.getElementById('question-number').textContent = `Pregunta ${String(state.currentIndex + 1).padStart(2, '0')} de ${questionsData.length}`;
@@ -282,7 +282,7 @@ function jumpToQuestion(index) {
     renderQuestion();
 }
 
-// MAPA DE REACTIVOS Y NAVEGACIÓN
+// MAPA DE REACTIVOS Y NAVEGACIÓN DIRECTA
 function renderGrid() {
     const grid = document.getElementById('reactive-grid');
     grid.innerHTML = '';
@@ -313,7 +313,7 @@ function updateProgress() {
     document.getElementById('progress-fill').style.width = `${pct}%`;
 }
 
-// ENTREGA Y REPORTE
+// FINALIZACIÓN Y REPORTE
 function confirmFinish() {
     const answeredCount = Object.keys(state.answers).length;
     const unanswered = questionsData.length - answeredCount;
@@ -334,7 +334,7 @@ function finishExam() {
 
 function showResultsScreen() {
     document.getElementById('exam-screen').classList.add('hidden');
-    document.getElementById('timer-display').classList.add('hidden');
+    document.getElementById('timer-display').style.display = 'none';
     document.getElementById('results-screen').style.display = 'block';
 
     let score = 0;
