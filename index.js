@@ -1,4 +1,4 @@
-// BANCO DE 50 PREGUNTAS
+// BANCO COMPLETO DE 50 PREGUNTAS CON KATEX
 const questionsBank = [
   { id: 1, topic: "Simplificación Algebraica", q: "Simplifique la expresión: $$\\frac{(2^3 \\cdot 4^{-1})^2}{8^{-1}}$$", options: ["16", "32", "8", "64"], correct: 1 },
   { id: 2, topic: "Simplificación Algebraica", q: "Al reducir $\\sqrt[3]{x^6 y^9 z^{12}}$, se obtiene:", options: ["$x y z$", "$x^2 y^3 z^4$", "$x^3 y^3 z^3$", "$x^2 y^2 z^2$"], correct: 1 },
@@ -149,9 +149,7 @@ function renderQuestion() {
   btnNext.innerText = (currentQuestionIndex === questionsBank.length - 1) ? 'Finalizar' : 'Siguiente';
 
   updateGridAndProgress();
-  
-  // Renderizado dinámico de la notación KaTeX en cada cambio
-  setTimeout(renderKaTeX, 10);
+  setTimeout(renderKaTeX, 20);
 }
 
 function renderKaTeX() {
@@ -250,7 +248,7 @@ function setupSecurity() {
       e.altKey
     ) {
       e.preventDefault();
-      registerViolation("Uso de atajos o herramientas de desarrollo no permitidas.");
+      registerViolation("Uso de atajos o herramientas no permitidas.");
     }
   });
 }
