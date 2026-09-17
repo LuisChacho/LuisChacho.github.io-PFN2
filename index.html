@@ -3,55 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evaluación de Física - BGU</title>
+  <title>Plataforma de Evaluación de Física | BGU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <!-- Pantalla de Inicio -->
-  <div id="start-screen" class="card">
-    <h1>Evaluación de Física de 50 Preguntas</h1>
-    <p><strong>Instrucciones y Normas de Seguridad:</strong></p>
-    <ul>
-      <li>La prueba consta de 50 preguntas de opción múltiple.</li>
-      <li>Dispones de 90 minutos para completar el examen.</li>
-      <li>El examen debe rendirse en <strong>modo pantalla completa</strong>.</li>
-      <li><strong>Prohibido:</strong> Salir de la pestaña, cambiar de aplicación, intentar copiar o tomar capturas de pantalla.</li>
-      <li>Cualquier intento de desviar la atención registrará una advertencia. Al acumular 3 advertencias, el examen se enviará automáticamente.</li>
-    </ul>
-    <button id="btn-start" class="btn">Comenzar Evaluación</button>
-  </div>
+  <!-- Capa de Seguridad Activa: Marca de Agua -->
+  <div class="watermark-overlay" id="watermark">EVALUACIÓN SEGURA - BGU</div>
 
-  <!-- Pantalla del Examen -->
-  <div id="exam-screen" class="card hidden">
-    <div class="header-bar">
-      <div id="timer">Tiempo restante: 90:00</div>
-      <div id="progress">Pregunta 1 de 50</div>
-    </div>
+  <div class="app-container">
 
-    <div class="warning-banner" id="warning-banner">
-      ⚠️ Advertencias: <span id="warn-count">0</span>/3
-    </div>
+    <!-- Pantalla de Inicio -->
+    <section id="start-screen" class="portal-card">
+      <div class="portal-header">
+        <span class="badge badge-primary">Evaluación Sumativa</span>
+        <h1>Física General y Aplicada</h1>
+        <p class="subtitle">Bachillerato General Unificado • 50 Preguntas</p>
+      </div>
 
-    <div id="question-container">
-      <h3 id="question-text">Texto de la pregunta</h3>
-      <div id="options-container" class="options-grid"></div>
-    </div>
+      <div class="rules-grid">
+        <div class="rule-item">
+          <div class="rule-icon">⏱️</div>
+          <div>
+            <strong>Tiempo Límite</strong>
+            <p>90 minutos cronometrados</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🛡️</div>
+          <div>
+            <strong>Entorno Proctored</strong>
+            <p>Pantalla completa obligatoria</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">⚠️</div>
+          <div>
+            <strong>Tolerancia Restringida</strong>
+            <p>Máximo 3 advertencias de fraude</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">💾</div>
+          <div>
+            <strong>Resiliencia de Datos</strong>
+            <p>Guardado de respuestas en tiempo real</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="navigation-bar">
-      <button id="btn-prev" class="btn btn-sec" disabled>Anterior</button>
-      <button id="btn-next" class="btn">Siguiente</button>
-    </div>
-  </div>
+      <div class="start-actions">
+        <button id="btn-start" class="btn btn-hero">Iniciar Examen en Modo Seguro</button>
+      </div>
+    </section>
 
-  <!-- Pantalla de Resultados -->
-  <div id="result-screen" class="card hidden">
-    <h2>Evaluación Finalizada</h2>
-    <p id="result-reason"></p>
-    <div class="score-box">
-      <span id="final-score">0</span> / 50
-    </div>
-    <p id="final-percentage"></p>
+    <!-- Pantalla del Examen -->
+    <section id="exam-screen" class="exam-layout hidden">
+      <!-- Barra Superior de Control -->
+      <header class="top-bar">
+        <div class="brand-status">
+          <span class="status-indicator"></span>
+          <span class="exam-title">Evaluación de Física</span>
+        </div>
+        
+        <div class="metric-badge warning-box" id="warning-box">
+          <span class="warning-icon">⚠️</span>
+          <span>Infracciones: <strong id="warn-count">0</strong>/3</span>
+        </div>
+
+        <div class="metric-badge timer-box">
+          <span class="timer-icon">⏳</span>
+          <span id="timer">90:00</span>
+        </div>
+      </header>
+
+      <!-- Barra de Progreso -->
+      <div class="progress-container">
+        <div class="progress-text">
+          <span id="progress-step">Pregunta 1 de 50</span>
+          <span id="progress-percent">2% completado</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Tarjeta Principal de Pregunta -->
+      <main class="question-card">
+        <div class="question-header">
+          <span class="question-number" id="question-num">Pregunta 01</span>
+          <h2 id="question-text" class="question-title">Cargando pregunta...</h2>
+        </div>
+
+        <div id="options-container" class="options-group">
+          <!-- Opciones dinámicas -->
+        </div>
+      </main>
+
+      <!-- Navegación Inferior -->
+      <footer class="bottom-bar">
+        <button id="btn-prev" class="btn btn-secondary" disabled>← Anterior</button>
+        <div class="quick-info">Selecciona una respuesta para continuar</div>
+        <button id="btn-next" class="btn btn-primary">Siguiente →</button>
+      </footer>
+    </section>
+
+    <!-- Pantalla de Resultados -->
+    <section id="result-screen" class="portal-card hidden">
+      <div class="portal-header text-center">
+        <div class="result-icon-wrapper" id="result-icon">📊</div>
+        <h1>Evaluación Finalizada</h1>
+        <p class="subtitle" id="result-reason">El examen ha concluido exitosamente.</p>
+      </div>
+
+      <div class="score-dashboard">
+        <div class="score-card">
+          <span class="score-label">Puntaje Obtenido</span>
+          <div class="score-value"><span id="final-score">0</span> <small>/ 50</small></div>
+        </div>
+        <div class="score-card">
+          <span class="score-label">Rendimiento</span>
+          <div class="score-value" id="final-percentage">0%</div>
+        </div>
+      </div>
+
+      <div class="result-actions text-center">
+        <button onclick="window.location.reload()" class="btn btn-secondary">Cerrar Sesión de Examen</button>
+      </div>
+    </section>
+
   </div>
 
   <script src="js/questions.js"></script>
