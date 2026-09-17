@@ -60,6 +60,7 @@ const MAX_WARNINGS = 3;
 let timerInterval = null;
 let totalSeconds = 60 * 60;
 let isExamActive = false;
+let isCooldown = false; // Control de tiempo de gracia post-alerta
 
 // REFERENCIAS DOM
 const startScreen = document.getElementById('start-screen');
@@ -214,31 +215,38 @@ function startTimer() {
   }, 1000);
 }
 
-// CAPA DE SEGURIDAD
+// CAPA DE SEGURIDAD CORREGIDA (SIN FALSOS POSITIVOS)
 function setupSecurity() {
-  window.addEventListener('blur', () => {
-    if (isExamActive) registerViolation("Cambio de ventana o pestaña detectado.");
-  });
-
+  // Cambio de pestaña / minimizar
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden && isExamActive) {
-      registerViolation("Salida del navegador detectada.");
+    if (document.hidden && isExamActive && !isCooldown) {
+      registerViolation("Salida del navegador o cambio de pestaña detectado.");
     }
   });
 
+  // Pérdida de foco de la ventana
+  window.addEventListener('blur', () => {
+    if (isExamActive && !isCooldown) {
+      registerViolation("Pérdida de foco de la ventana de la evaluación.");
+    }
+  });
+
+  // Salida de Pantalla Completa
   document.addEventListener('fullscreenchange', () => {
-    if (!document.fullscreenElement && isExamActive) {
+    if (!document.fullscreenElement && isExamActive && !isCooldown) {
       registerViolation("Abandono del modo pantalla completa.");
     }
   });
 
+  // Bloqueo de menú contextual, copia y pegado
   document.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('copy', e => e.preventDefault());
   document.addEventListener('cut', e => e.preventDefault());
   document.addEventListener('paste', e => e.preventDefault());
 
+  // Atajos de teclado y captura
   document.addEventListener('keydown', (e) => {
-    if (!isExamActive) return;
+    if (!isExamActive || isCooldown) return;
 
     if (
       e.key === 'F12' ||
@@ -248,19 +256,29 @@ function setupSecurity() {
       e.altKey
     ) {
       e.preventDefault();
-      registerViolation("Uso de atajos o herramientas no permitidas.");
+      registerViolation("Uso de atajos de teclado o intento de captura de pantalla.");
     }
   });
 }
 
 function registerViolation(reason) {
+  if (isCooldown) return;
+  
+  // Activar tiempo de gracia para evitar bucles al hacer clic en 'Aceptar'
+  isCooldown = true;
   warningCount++;
-  alert(`⚠️ ADVERTENCIA DE SEGURIDAD (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\nNo abandones la pantalla ni intentes usar atajos.`);
 
   if (warningCount >= MAX_WARNINGS) {
-    finishExam("Examen anulado automáticamente por acumulación de infracciones de seguridad.");
+    alert(`🚨 ADVERTENCIA FINAL (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nHas alcanzado el límite permitido. El examen será anulado.`);
+    finishExam("Examen anulado automáticamente por acumulación de 3 infracciones de seguridad.");
   } else {
+    alert(`⚠️ ADVERTENCIA DE SEGURIDAD (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nPor favor, continúa en la evaluación sin cambiar de ventana ni usar capturas de pantalla.`);
     requestFullScreen();
+    
+    // Dar 3 segundos para reorientarse antes de volver a monitorear
+    setTimeout(() => {
+      isCooldown = false;
+    }, 3000);
   }
 }
 
