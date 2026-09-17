@@ -52,6 +52,9 @@ const questionsBank = [
   { id: 50, topic: "Combinatoria y Permutación", q: "PIN de 3 dígitos distintos del 1 al 9:", options: ["504", "84", "729", "256"], correct: 0, explanation: "$9 \\times 8 \\times 7 = 504$." }
 ];
 
+// CLAVE DE ALMACENAMIENTO
+const STORAGE_KEY = 'UNL_EXAM_STATE_V1';
+
 // ESTADO GENERAL
 let studentName = "";
 let currentQuestionIndex = 0;
@@ -59,7 +62,8 @@ let userAnswers = {};
 let warningCount = 0;
 const MAX_WARNINGS = 3;
 let timerInterval = null;
-let totalSeconds = 60 * 60;
+const TOTAL_EXAM_DURATION_SEC = 60 * 60; // 60 minutos en segundos
+let startTime = null;
 let isExamActive = false;
 let isCooldown = false;
 
@@ -75,6 +79,7 @@ const btnPrev = document.getElementById('btn-prev');
 const btnNext = document.getElementById('btn-next');
 const btnFinish = document.getElementById('btn-finish');
 const btnDownloadPdf = document.getElementById('btn-download-pdf');
+const btnRetryExam = document.getElementById('btn-retry-exam');
 
 const questionNumber = document.getElementById('question-number');
 const questionTopic = document.getElementById('question-topic');
@@ -87,12 +92,81 @@ const progressBarFill = document.getElementById('progress-bar-fill');
 const progressPercent = document.getElementById('progress-percent');
 const feedbackList = document.getElementById('feedback-list');
 
-// ENVENTO INICIAL (REGISTRO LIMPIO)
+// INICIALIZACIÓN
+window.addEventListener('DOMContentLoaded', () => {
+  checkExistingSession();
+});
+
+function checkExistingSession() {
+  const savedState = localStorage.getItem(STORAGE_KEY);
+  if (savedState) {
+    try {
+      const state = JSON.parse(savedState);
+
+      if (state.isFinished) {
+        // Si ya finalizó previamente, mostrar directo el reporte
+        studentName = state.studentName;
+        userAnswers = state.userAnswers || {};
+        finishExam(state.finishReason || "Evaluación finalizada.", state.isSuspended, false);
+      } else {
+        // Restaurar examen en curso
+        studentName = state.studentName;
+        userAnswers = state.userAnswers || {};
+        warningCount = state.warningCount || 0;
+        startTime = state.startTime;
+        currentQuestionIndex = state.currentQuestionIndex || 0;
+
+        // Calcular el tiempo transcurrido exacto
+        const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+        const remainingSeconds = TOTAL_EXAM_DURATION_SEC - elapsedSeconds;
+
+        if (remainingSeconds <= 0) {
+          finishExam("Tiempo límite de 60 minutos agotado.", false, true);
+        } else {
+          startScreen.classList.add('hidden');
+          examApp.classList.remove('hidden');
+          activeStudentDisplay.innerText = `Estudiante: ${studentName}`;
+
+          buildGrid();
+          renderQuestion();
+          startTimer();
+
+          setTimeout(() => {
+            requestFullScreen();
+            isExamActive = true;
+            setupSecurity();
+          }, 300);
+        }
+      }
+    } catch (e) {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }
+}
+
+// PERSISTENCIA EN LOCALSTORAGE
+function saveStateToStorage(isFinished = false, finishReason = "", isSuspended = false) {
+  const state = {
+    studentName,
+    userAnswers,
+    warningCount,
+    startTime,
+    currentQuestionIndex,
+    isFinished,
+    finishReason,
+    isSuspended
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// EVENTO DE INICIO
 startForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = studentNameInput.value.trim();
   if (name) {
     studentName = name;
+    startTime = Date.now();
+    saveStateToStorage();
     launchExamFlow();
   }
 });
@@ -101,23 +175,27 @@ btnPrev.addEventListener('click', () => navigate(-1));
 btnNext.addEventListener('click', () => navigate(1));
 btnFinish.addEventListener('click', () => {
   if (confirm("¿Estás seguro de que deseas finalizar tu examen ahora?")) {
-    finishExam("Evaluación completada voluntariamente por el estudiante.", false);
+    finishExam("Evaluación completada voluntariamente por el estudiante.", false, true);
   }
 });
 btnDownloadPdf.addEventListener('click', () => window.print());
 
+btnRetryExam.addEventListener('click', () => {
+  if (confirm("¿Deseas reiniciar la evaluación y realizar un nuevo intento? Se borrarán tus respuestas anteriores.")) {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+});
+
 function launchExamFlow() {
-  // 1. Ocultar pantalla de registro y mostrar UI del examen
   startScreen.classList.add('hidden');
   examApp.classList.remove('hidden');
   activeStudentDisplay.innerText = `Estudiante: ${studentName}`;
 
-  // 2. Construir mapa y renderizar primera pregunta
   buildGrid();
   renderQuestion();
   startTimer();
 
-  // 3. Activar Fullscreen y Seguridad tras un breve retardo para estabilidad
   setTimeout(() => {
     requestFullScreen();
     isExamActive = true;
@@ -134,6 +212,7 @@ function buildGrid() {
     btn.id = `grid-btn-${index}`;
     btn.onclick = () => {
       currentQuestionIndex = index;
+      saveStateToStorage();
       renderQuestion();
     };
     reactivesGrid.appendChild(btn);
@@ -187,6 +266,7 @@ function renderKaTeX() {
 
 function selectOption(qId, optionIndex) {
   userAnswers[qId] = optionIndex;
+  saveStateToStorage();
   renderQuestion();
 }
 
@@ -194,9 +274,10 @@ function navigate(direction) {
   const nextIndex = currentQuestionIndex + direction;
   if (nextIndex >= 0 && nextIndex < questionsBank.length) {
     currentQuestionIndex = nextIndex;
+    saveStateToStorage();
     renderQuestion();
   } else if (nextIndex >= questionsBank.length) {
-    finishExam("Evaluación completada.", false);
+    finishExam("Evaluación completada.", false, true);
   }
 }
 
@@ -222,20 +303,26 @@ function updateGridAndProgress() {
 }
 
 function startTimer() {
-  timerInterval = setInterval(() => {
-    totalSeconds--;
-    const mins = Math.floor(totalSeconds / 60);
-    const secs = totalSeconds % 60;
-    timerText.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  if (timerInterval) clearInterval(timerInterval);
 
-    if (totalSeconds <= 0) {
+  timerInterval = setInterval(() => {
+    const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+    const remainingSeconds = TOTAL_EXAM_DURATION_SEC - elapsedSeconds;
+
+    if (remainingSeconds <= 0) {
       clearInterval(timerInterval);
-      finishExam("Tiempo límite de 60 minutos agotado.", false);
+      timerText.innerText = "00:00";
+      finishExam("Tiempo límite de 60 minutos agotado.", false, true);
+      return;
     }
+
+    const mins = Math.floor(remainingSeconds / 60);
+    const secs = remainingSeconds % 60;
+    timerText.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }, 1000);
 }
 
-// CAPA DE SEGURIDAD ESTRICTA (SÓLO ACTIVA TRAS REGISTRO)
+// CAPA DE SEGURIDAD
 function setupSecurity() {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && isExamActive && !isCooldown) {
@@ -280,10 +367,11 @@ function registerViolation(reason) {
   if (isCooldown) return;
   isCooldown = true;
   warningCount++;
+  saveStateToStorage();
 
   if (warningCount >= MAX_WARNINGS) {
     alert(`🚨 ADVERTENCIA FINAL (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nHas superado el límite permitido. Evaluación suspendida.`);
-    finishExam(`Prueba suspendida por infracción de seguridad: ${reason} (Límite superado).`, true);
+    finishExam(`Prueba suspendida por infracción de seguridad: ${reason} (Límite superado).`, true, true);
   } else {
     alert(`⚠️ ADVERTENCIA DE SEGURIDAD (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nPor favor regresa inmediatamente al examen.`);
     requestFullScreen();
@@ -298,15 +386,20 @@ function requestFullScreen() {
   }
 }
 
-// GENERACIÓN DE REPORTE FINAL & RETROALIMENTACIÓN
-function finishExam(reason, isSuspended = false) {
+// REPORTE FINAL & RETROALIMENTACIÓN
+function finishExam(reason, isSuspended = false, shouldSave = true) {
   isExamActive = false;
-  clearInterval(timerInterval);
+  if (timerInterval) clearInterval(timerInterval);
+
+  if (shouldSave) {
+    saveStateToStorage(true, reason, isSuspended);
+  }
 
   if (document.fullscreenElement) {
     document.exitFullscreen().catch(() => {});
   }
 
+  startScreen.classList.add('hidden');
   examApp.classList.add('hidden');
   resultScreen.classList.remove('hidden');
 
@@ -320,7 +413,7 @@ function finishExam(reason, isSuspended = false) {
   }
 
   document.getElementById('report-student-name').innerText = studentName;
-  document.getElementById('report-date').innerText = new Date().toLocaleString();
+  document.getElementById('report-date').innerText = new Date(startTime || Date.now()).toLocaleString();
   document.getElementById('result-reason').innerText = reason;
 
   let score = 0;

@@ -437,8 +437,29 @@
       margin-bottom: 24px;
     }
 
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
     .btn-download {
       background: var(--dark-navy);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-retry {
+      background: var(--primary-blue);
       color: white;
       border: none;
       padding: 12px 24px;
@@ -540,7 +561,7 @@
         color: black !important;
       }
 
-      .btn-download, .top-header, .sidebar-panel, .bottom-nav {
+      .action-bar, .top-header, .sidebar-panel, .bottom-nav {
         display: none !important;
       }
 
@@ -577,8 +598,8 @@
           <ul>
             <li><strong>Tiempo:</strong> 60 minutos para resolver 50 reactivos.</li>
             <li><strong>Navegación:</strong> Libre entre preguntas y revisión final.</li>
-            <li><strong>Seguridad:</strong> Se activará el modo pantalla completa, bloqueo de copiar/pegar y detección de atajos.</li>
-            <li><strong>3 Infracciones:</strong> Suspensión inmediata de la evaluación.</li>
+            <li><strong>Autoguardado:</strong> Tus respuestas se conservan si recargas o pierde conexión.</li>
+            <li><strong>Seguridad:</strong> Bloqueo de copiar/pegar y 3 infracciones para suspensión.</li>
           </ul>
         </div>
 
@@ -671,6 +692,10 @@
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
             Descargar Reporte (PDF / Imprimir)
+          </button>
+          
+          <button id="btn-retry-exam" class="btn-retry">
+            🔄 Rendir Nuevamente
           </button>
         </div>
       </div>
