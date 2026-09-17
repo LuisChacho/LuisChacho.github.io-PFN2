@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Razonamiento Numérico Avanzado - BGU / UNL</title>
 
-  <!-- KaTeX para renderizar expresiones matemáticas -->
+  <!-- KaTeX para expresiones matemáticas -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 
   <style>
@@ -42,7 +42,7 @@
       display: none !important;
     }
 
-    /* Modal de Bienvenida e Inicio */
+    /* Pantalla de Inicio / Registro */
     .overlay-card {
       position: fixed;
       inset: 0;
@@ -74,24 +74,52 @@
     .card-body h2 {
       font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 2px var(--accent-light);
     }
 
     .instructions {
       background: var(--bg-color);
-      padding: 20px;
+      padding: 16px 20px;
       border-radius: 10px;
-      margin: 20px 0;
-      font-size: 0.9rem;
-      line-height: 1.6;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+      line-height: 1.5;
       border: 1px solid var(--border-color);
       text-align: left;
     }
 
     .instructions ul {
-      margin-left: 20px;
-      margin-top: 8px;
+      margin-left: 18px;
+      margin-top: 6px;
     }
 
     /* Layout del Examen */
@@ -113,14 +141,12 @@
     .brand-title {
       font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
     }
 
     .brand-subtitle {
       font-size: 0.75rem;
       color: var(--text-muted);
       display: block;
-      margin-top: 2px;
     }
 
     .timer-badge {
@@ -145,7 +171,6 @@
       width: 100%;
     }
 
-    /* Pregunta */
     .question-panel {
       display: flex;
       flex-direction: column;
@@ -176,10 +201,8 @@
       font-size: 1.1rem;
       line-height: 1.6;
       margin-bottom: 28px;
-      color: var(--text-main);
     }
 
-    /* Opciones */
     .options-list {
       display: flex;
       flex-direction: column;
@@ -199,15 +222,9 @@
       min-height: 60px;
     }
 
-    .option-item:hover {
+    .option-item:hover, .option-item.selected {
       border-color: var(--primary-blue);
       background: var(--accent-light);
-    }
-
-    .option-item.selected {
-      border-color: var(--primary-blue);
-      background: var(--accent-light);
-      box-shadow: 0 0 0 1px var(--primary-blue);
     }
 
     .option-badge {
@@ -227,11 +244,6 @@
     .option-item.selected .option-badge {
       background: var(--primary-blue);
       color: white;
-    }
-
-    .option-label {
-      font-size: 1rem;
-      width: 100%;
     }
 
     .bottom-nav {
@@ -254,7 +266,6 @@
       cursor: not-allowed;
     }
 
-    /* Sidebar / Mapa de Reactivos */
     .sidebar-panel {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -313,7 +324,6 @@
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text-main);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -355,7 +365,6 @@
       font-weight: 800;
       cursor: pointer;
       width: 100%;
-      letter-spacing: 0.5px;
       transition: background 0.2s ease;
     }
 
@@ -363,7 +372,7 @@
       background: var(--primary-hover);
     }
 
-    /* PANTALLA DE RESULTADOS Y RETROALIMENTACIÓN */
+    /* Pantalla de Resultados y Retroalimentación */
     .result-container {
       max-width: 900px;
       margin: 40px auto;
@@ -378,6 +387,17 @@
       text-align: center;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       margin-bottom: 32px;
+    }
+
+    .student-info-box {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 0.95rem;
     }
 
     .status-badge {
@@ -404,20 +424,13 @@
       font-size: 3.5rem;
       font-weight: 900;
       color: var(--primary-blue);
-      margin: 12px 0 4px 0;
+      margin: 8px 0 4px 0;
     }
 
     .percentage-badge {
       font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
-    .action-bar {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     .btn-download {
@@ -434,15 +447,11 @@
       gap: 8px;
     }
 
-    /* Lista de Retroalimentación */
     .feedback-section-title {
       font-size: 1.25rem;
       font-weight: 800;
       margin-bottom: 20px;
       color: var(--dark-navy);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .feedback-item {
@@ -520,14 +529,14 @@
       color: #1e40af;
     }
 
-    /* Estilos de Impresión / PDF */
+    /* Formato de Impresión PDF */
     @media print {
       body {
         background: white !important;
         color: black !important;
       }
 
-      .action-bar, .top-header, .sidebar-panel, .bottom-nav {
+      .btn-download, .top-header, .sidebar-panel, .bottom-nav {
         display: none !important;
       }
 
@@ -547,59 +556,59 @@
 </head>
 <body>
 
-  <!-- PANTALLA INICIAL: BOTÓN INICIAR PRUEBA -->
+  <!-- REGISTRO E INICIO -->
   <div id="start-screen" class="overlay-card">
     <div class="card-body">
       <h1>RAZONAMIENTO NUMÉRICO AVANZADO</h1>
       <h2>EVALUACIÓN ESTANDARIZADA BGU / PREUNIVERSITARIO UNL</h2>
-      <div class="instructions">
-        <p><strong>Indicaciones Generales:</strong></p>
-        <ul>
-          <li><strong>Tiempo máximo:</strong> 60 minutos para resolver 50 reactivos.</li>
-          <li><strong>Formato:</strong> Navegación libre mediante el Mapa de Reactivos.</li>
-          <li><strong>Seguridad:</strong> Al dar clic en "INICIAR PRUEBA", la plataforma pasará a modo pantalla completa y monitoreará los intentos de salida o capturas.</li>
-          <li><strong>Regla de 3 advertencias:</strong> Si realizas 3 faltas de seguridad, la evaluación se anulará automáticamente.</li>
-        </ul>
-      </div>
-      <button id="btn-start" class="btn-primary-lg">INICIAR PRUEBA</button>
+      
+      <form id="start-form">
+        <div class="form-group">
+          <label for="student-name">Nombre y Apellidos del Estudiante:</label>
+          <input type="text" id="student-name" class="form-input" placeholder="Ej. Juan Carlos Pérez" required autocomplete="off">
+        </div>
+
+        <div class="instructions">
+          <p><strong>Indicaciones de Evaluación:</strong></p>
+          <ul>
+            <li><strong>Tiempo:</strong> 60 minutos para 50 reactivos.</li>
+            <li><strong>Formato:</strong> Navegación libre y directa.</li>
+            <li><strong>Seguridad:</strong> Bloqueo de capturas, copiar/pegar y monitoreo de pantalla completa.</li>
+            <li><strong>3 Infracciones:</strong> Anulación automática de la evaluación.</li>
+          </ul>
+        </div>
+
+        <button type="submit" id="btn-start" class="btn-primary-lg">INICIAR PRUEBA</button>
+      </form>
     </div>
   </div>
 
-  <!-- APLICACIÓN PRINCIPAL DE EVALUACIÓN -->
+  <!-- APLICACIÓN EXAMEN -->
   <div id="exam-app" class="app-layout hidden">
-    <!-- Header -->
     <header class="top-header">
       <div class="brand-info">
         <h1 class="brand-title">RAZONAMIENTO NUMÉRICO AVANZADO</h1>
-        <span class="brand-subtitle">EVALUACIÓN ESTANDARIZADA BGU / PREUNIVERSITARIO UNL</span>
+        <span class="brand-subtitle" id="active-student-display">Estudiante: -</span>
       </div>
-      <div class="header-actions">
-        <div class="timer-badge">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-          <span id="timer-text">60:00</span>
-        </div>
+      <div class="timer-badge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span id="timer-text">60:00</span>
       </div>
     </header>
 
-    <!-- Contenido Principal -->
     <div class="main-container">
       <main class="question-panel">
         <div class="question-card">
           <div class="question-header">
-            <span id="question-number" class="q-number">Pregunta 1 de 50</span>
-            <span id="question-topic" class="q-topic">Tema: General</span>
+            <span id="question-number">Pregunta 1 de 50</span>
+            <span id="question-topic">Tema: General</span>
           </div>
           
-          <div id="question-text" class="q-text">
-            Cargando reactivo...
-          </div>
-
-          <div id="options-container" class="options-list">
-            <!-- Opciones generadas por JS -->
-          </div>
+          <div id="question-text" class="q-text">Cargando reactivo...</div>
+          <div id="options-container" class="options-list"></div>
         </div>
 
         <div class="bottom-nav">
@@ -608,7 +617,6 @@
         </div>
       </main>
 
-      <!-- Panel Lateral -->
       <aside class="sidebar-panel">
         <div class="progress-box">
           <div class="progress-label">
@@ -622,9 +630,7 @@
 
         <div class="grid-box">
           <div class="grid-title">Mapa de Reactivos (50)</div>
-          <div id="reactives-grid" class="reactives-grid">
-            <!-- Rejilla de botones -->
-          </div>
+          <div id="reactives-grid" class="reactives-grid"></div>
         </div>
 
         <button id="btn-finish" class="btn-finish-exam">Finalizar Examen</button>
@@ -632,13 +638,21 @@
     </div>
   </div>
 
-  <!-- PANTALLA DE RESULTADOS Y RETROALIMENTACIÓN -->
+  <!-- RESULTADOS Y RETROALIMENTACIÓN -->
   <div id="result-screen" class="hidden">
     <div class="result-container">
       <div class="result-card-header">
         <span id="status-badge" class="status-badge normal">Evaluación Finalizada</span>
         <h2>Reporte Oficial de Evaluación</h2>
-        <p id="result-reason" style="margin-top: 8px; color: var(--text-muted); font-size: 0.95rem;"></p>
+        
+        <div style="margin: 16px 0;">
+          <div class="student-info-box">
+            <strong>Estudiante:</strong> <span id="report-student-name">-</span><br>
+            <strong>Fecha/Hora de Intento:</strong> <span id="report-date">-</span>
+          </div>
+        </div>
+
+        <p id="result-reason" style="color: var(--text-muted); font-size: 0.95rem;"></p>
         
         <div class="score-display">
           <span id="final-score">0</span><small style="font-size: 1.5rem; color: var(--text-muted);">/ 50</small>
@@ -661,13 +675,10 @@
         <span>📌 Retroalimentación Detallada de Reactivos</span>
       </div>
 
-      <div id="feedback-list">
-        <!-- Generado dinámicamente desde JS -->
-      </div>
+      <div id="feedback-list"></div>
     </div>
   </div>
 
-  <!-- Carga de KaTeX y Lógica JS -->
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
   <script src="index.js"></script>
