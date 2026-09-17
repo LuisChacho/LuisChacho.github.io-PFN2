@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 
   <style>
-    /* ESTILOS PROFESIONALES INTEGRADOS */
     :root {
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
@@ -20,6 +19,8 @@
       --accent-light: #eff6ff;
       --border-color: #e2e8f0;
       --dark-navy: #0f172a;
+      --danger-color: #ef4444;
+      --success-color: #10b981;
     }
 
     * {
@@ -41,11 +42,11 @@
       display: none !important;
     }
 
-    /* Modal de Inicio y Resultados */
+    /* Modal de Bienvenida e Inicio */
     .overlay-card {
       position: fixed;
       inset: 0;
-      background-color: rgba(15, 23, 42, 0.8);
+      background-color: rgba(15, 23, 42, 0.85);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -60,19 +61,20 @@
       max-width: 600px;
       width: 100%;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      text-align: center;
     }
 
     .card-body h1 {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--dark-navy);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .card-body h2 {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       letter-spacing: 0.5px;
     }
 
@@ -84,6 +86,7 @@
       font-size: 0.9rem;
       line-height: 1.6;
       border: 1px solid var(--border-color);
+      text-align: left;
     }
 
     .instructions ul {
@@ -346,50 +349,223 @@
       background: var(--primary-blue);
       color: white;
       border: none;
-      padding: 14px 28px;
+      padding: 16px 32px;
       border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1.1rem;
+      font-weight: 800;
       cursor: pointer;
       width: 100%;
+      letter-spacing: 0.5px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-primary-lg:hover {
+      background: var(--primary-hover);
+    }
+
+    /* PANTALLA DE RESULTADOS Y RETROALIMENTACIÓN */
+    .result-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px 60px 20px;
+    }
+
+    .result-card-header {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 32px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .status-badge.normal {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-badge.suspended {
+      background: #fee2e2;
+      color: #991b1b;
     }
 
     .score-display {
       font-size: 3.5rem;
       font-weight: 900;
       color: var(--primary-blue);
-      text-align: center;
-      margin: 16px 0;
+      margin: 12px 0 4px 0;
     }
 
     .percentage-badge {
-      text-align: center;
       font-weight: 700;
       color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .btn-download {
+      background: var(--dark-navy);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Lista de Retroalimentación */
+    .feedback-section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--dark-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feedback-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .feedback-item.correct-border {
+      border-left: 6px solid var(--success-color);
+    }
+
+    .feedback-item.incorrect-border {
+      border-left: 6px solid var(--danger-color);
+    }
+
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .badge-status {
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .badge-status.correct {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-status.incorrect {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .feedback-q-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .ans-box {
+      background: var(--bg-color);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .ans-box.user-ans {
+      border: 1px solid #fca5a5;
+      background: #fef2f2;
+    }
+
+    .ans-box.correct-ans {
+      border: 1px solid #86efac;
+      background: #f0fdf4;
+    }
+
+    .explanation-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: #eff6ff;
+      border-radius: 8px;
+      border: 1px solid #bfdbfe;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #1e40af;
+    }
+
+    /* Estilos de Impresión / PDF */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      .action-bar, .top-header, .sidebar-panel, .bottom-nav {
+        display: none !important;
+      }
+
+      .result-container {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .result-card-header, .feedback-item {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        page-break-inside: avoid;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- PANTALLA DE INICIO -->
+  <!-- PANTALLA INICIAL: BOTÓN INICIAR PRUEBA -->
   <div id="start-screen" class="overlay-card">
     <div class="card-body">
       <h1>RAZONAMIENTO NUMÉRICO AVANZADO</h1>
       <h2>EVALUACIÓN ESTANDARIZADA BGU / PREUNIVERSITARIO UNL</h2>
       <div class="instructions">
-        <p><strong>Normas del Examen y Seguridad:</strong></p>
+        <p><strong>Indicaciones Generales:</strong></p>
         <ul>
-          <li><strong>Tiempo total:</strong> 60 minutos para 50 preguntas.</li>
-          <li><strong>Formato:</strong> Rejilla de navegación directa (Mapa de Reactivos).</li>
-          <li><strong>Seguridad Activa:</strong> Se activará el modo pantalla completa. Queda prohibido cambiar de pestaña, usar clic derecho, capturas de pantalla y atajos de teclado.</li>
-          <li><strong>Advertencias:</strong> Al acumular 3 infracciones el examen se bloqueará y enviará automáticamente.</li>
+          <li><strong>Tiempo máximo:</strong> 60 minutos para resolver 50 reactivos.</li>
+          <li><strong>Formato:</strong> Navegación libre mediante el Mapa de Reactivos.</li>
+          <li><strong>Seguridad:</strong> Al dar clic en "INICIAR PRUEBA", la plataforma pasará a modo pantalla completa y monitoreará los intentos de salida o capturas.</li>
+          <li><strong>Regla de 3 advertencias:</strong> Si realizas 3 faltas de seguridad, la evaluación se anulará automáticamente.</li>
         </ul>
       </div>
-      <button id="btn-start" class="btn-primary-lg">Iniciar Evaluación</button>
+      <button id="btn-start" class="btn-primary-lg">INICIAR PRUEBA</button>
     </div>
   </div>
 
-  <!-- APLICACIÓN DE EVALUACIÓN -->
+  <!-- APLICACIÓN PRINCIPAL DE EVALUACIÓN -->
   <div id="exam-app" class="app-layout hidden">
     <!-- Header -->
     <header class="top-header">
@@ -408,9 +584,8 @@
       </div>
     </header>
 
-    <!-- Área de Contenido -->
+    <!-- Contenido Principal -->
     <div class="main-container">
-      <!-- Panel de la Pregunta -->
       <main class="question-panel">
         <div class="question-card">
           <div class="question-header">
@@ -423,7 +598,7 @@
           </div>
 
           <div id="options-container" class="options-list">
-            <!-- Opciones -->
+            <!-- Opciones generadas por JS -->
           </div>
         </div>
 
@@ -433,7 +608,7 @@
         </div>
       </main>
 
-      <!-- Sidebar Derecha -->
+      <!-- Panel Lateral -->
       <aside class="sidebar-panel">
         <div class="progress-box">
           <div class="progress-label">
@@ -448,7 +623,7 @@
         <div class="grid-box">
           <div class="grid-title">Mapa de Reactivos (50)</div>
           <div id="reactives-grid" class="reactives-grid">
-            <!-- Rejilla 1 a 50 -->
+            <!-- Rejilla de botones -->
           </div>
         </div>
 
@@ -457,19 +632,42 @@
     </div>
   </div>
 
-  <!-- PANTALLA DE RESULTADOS -->
-  <div id="result-screen" class="overlay-card hidden">
-    <div class="card-body result-body">
-      <h2>Evaluación Finalizada</h2>
-      <p id="result-reason" class="result-reason" style="margin-top: 10px; color: #64748b; font-size: 0.95rem;"></p>
-      <div class="score-display">
-        <span id="final-score">0</span><small style="font-size: 1.5rem; color: #64748b;">/ 50</small>
+  <!-- PANTALLA DE RESULTADOS Y RETROALIMENTACIÓN -->
+  <div id="result-screen" class="hidden">
+    <div class="result-container">
+      <div class="result-card-header">
+        <span id="status-badge" class="status-badge normal">Evaluación Finalizada</span>
+        <h2>Reporte Oficial de Evaluación</h2>
+        <p id="result-reason" style="margin-top: 8px; color: var(--text-muted); font-size: 0.95rem;"></p>
+        
+        <div class="score-display">
+          <span id="final-score">0</span><small style="font-size: 1.5rem; color: var(--text-muted);">/ 50</small>
+        </div>
+        <div id="final-percentage" class="percentage-badge">0% de aciertos</div>
+
+        <div class="action-bar">
+          <button id="btn-download-pdf" class="btn-download">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Descargar Reporte (PDF / Imprimir)
+          </button>
+        </div>
       </div>
-      <div id="final-percentage" class="percentage-badge">0% de aciertos</div>
+
+      <div class="feedback-section-title">
+        <span>📌 Retroalimentación Detallada de Reactivos</span>
+      </div>
+
+      <div id="feedback-list">
+        <!-- Generado dinámicamente desde JS -->
+      </div>
     </div>
   </div>
 
-  <!-- JS KaTeX y Script Principal -->
+  <!-- Carga de KaTeX y Lógica JS -->
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
   <script src="index.js"></script>
