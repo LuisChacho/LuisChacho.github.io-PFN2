@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Razonamiento Numérico Avanzado - BGU / UNL</title>
 
-  <!-- KaTeX para expresiones matemáticas -->
+  <!-- KaTeX para renderizado de fórmulas -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 
   <style>
@@ -46,7 +46,7 @@
     .overlay-card {
       position: fixed;
       inset: 0;
-      background-color: rgba(15, 23, 42, 0.85);
+      background-color: rgba(15, 23, 42, 0.9);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -58,14 +58,14 @@
       background: var(--card-bg);
       padding: 40px;
       border-radius: 16px;
-      max-width: 600px;
+      max-width: 580px;
       width: 100%;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
       text-align: center;
     }
 
     .card-body h1 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 800;
       color: var(--dark-navy);
       margin-bottom: 6px;
@@ -74,7 +74,7 @@
     .card-body h2 {
       font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       letter-spacing: 0.5px;
     }
 
@@ -88,22 +88,24 @@
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .form-input {
       width: 100%;
       padding: 12px 16px;
-      border: 1px solid var(--border-color);
+      border: 1.5px solid var(--border-color);
       border-radius: 8px;
       font-size: 1rem;
       outline: none;
+      user-select: text !important;
+      -webkit-user-select: text !important;
       transition: border-color 0.2s;
     }
 
     .form-input:focus {
       border-color: var(--primary-blue);
-      box-shadow: 0 0 0 2px var(--accent-light);
+      box-shadow: 0 0 0 3px var(--accent-light);
     }
 
     .instructions {
@@ -122,7 +124,7 @@
       margin-top: 6px;
     }
 
-    /* Layout del Examen */
+    /* Layout Principal */
     .app-layout {
       display: flex;
       flex-direction: column;
@@ -144,9 +146,10 @@
     }
 
     .brand-subtitle {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       display: block;
+      margin-top: 2px;
     }
 
     .timer-badge {
@@ -361,7 +364,7 @@
       border: none;
       padding: 16px 32px;
       border-radius: 8px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       cursor: pointer;
       width: 100%;
@@ -372,7 +375,7 @@
       background: var(--primary-hover);
     }
 
-    /* Pantalla de Resultados y Retroalimentación */
+    /* Sección de Resultados y Retroalimentación */
     .result-container {
       max-width: 900px;
       margin: 40px auto;
@@ -395,19 +398,20 @@
       border-radius: 8px;
       padding: 12px 20px;
       display: inline-block;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       text-align: left;
       font-size: 0.95rem;
+      line-height: 1.6;
     }
 
     .status-badge {
       display: inline-block;
       padding: 6px 16px;
       border-radius: 20px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.85rem;
-      margin-bottom: 12px;
-      text-transform: uppercase;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
     }
 
     .status-badge.normal {
@@ -430,7 +434,7 @@
     .percentage-badge {
       font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .btn-download {
@@ -529,7 +533,7 @@
       color: #1e40af;
     }
 
-    /* Formato de Impresión PDF */
+    /* Impresión limpia a PDF */
     @media print {
       body {
         background: white !important;
@@ -556,7 +560,7 @@
 </head>
 <body>
 
-  <!-- REGISTRO E INICIO -->
+  <!-- REGISTRO Y FORMULARIO INICIAL -->
   <div id="start-screen" class="overlay-card">
     <div class="card-body">
       <h1>RAZONAMIENTO NUMÉRICO AVANZADO</h1>
@@ -569,21 +573,21 @@
         </div>
 
         <div class="instructions">
-          <p><strong>Indicaciones de Evaluación:</strong></p>
+          <p><strong>Instrucciones y Protocolo:</strong></p>
           <ul>
-            <li><strong>Tiempo:</strong> 60 minutos para 50 reactivos.</li>
-            <li><strong>Formato:</strong> Navegación libre y directa.</li>
-            <li><strong>Seguridad:</strong> Bloqueo de capturas, copiar/pegar y monitoreo de pantalla completa.</li>
-            <li><strong>3 Infracciones:</strong> Anulación automática de la evaluación.</li>
+            <li><strong>Tiempo:</strong> 60 minutos para resolver 50 reactivos.</li>
+            <li><strong>Navegación:</strong> Libre entre preguntas y revisión final.</li>
+            <li><strong>Seguridad:</strong> Se activará el modo pantalla completa, bloqueo de copiar/pegar y detección de atajos.</li>
+            <li><strong>3 Infracciones:</strong> Suspensión inmediata de la evaluación.</li>
           </ul>
         </div>
 
-        <button type="submit" id="btn-start" class="btn-primary-lg">INICIAR PRUEBA</button>
+        <button type="submit" id="btn-start" class="btn-primary-lg">INICIAR PRUEBA AHORA</button>
       </form>
     </div>
   </div>
 
-  <!-- APLICACIÓN EXAMEN -->
+  <!-- APLICACIÓN PRINCIPAL -->
   <div id="exam-app" class="app-layout hidden">
     <header class="top-header">
       <div class="brand-info">
@@ -652,7 +656,7 @@
           </div>
         </div>
 
-        <p id="result-reason" style="color: var(--text-muted); font-size: 0.95rem;"></p>
+        <p id="result-reason" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;"></p>
         
         <div class="score-display">
           <span id="final-score">0</span><small style="font-size: 1.5rem; color: var(--text-muted);">/ 50</small>

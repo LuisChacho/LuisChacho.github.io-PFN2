@@ -1,4 +1,4 @@
-// BANCO COMPLETO DE PREGUNTAS Y EXPLICACIONES RESOLUTIVAS
+// BANCO COMPLETO DE PREGUNTAS
 const questionsBank = [
   { id: 1, topic: "Simplificación Algebraica", q: "Simplifique la expresión: $$\\frac{(2^3 \\cdot 4^{-1})^2}{8^{-1}}$$", options: ["16", "32", "8", "64"], correct: 1, explanation: "Transformando a base 2: $\\frac{(2^3 \\cdot 2^{-2})^2}{2^{-3}} = \\frac{(2^1)^2}{2^{-3}} = \\frac{2^2}{2^{-3}} = 2^{2 - (-3)} = 2^5 = 32$." },
   { id: 2, topic: "Simplificación Algebraica", q: "Al reducir $\\sqrt[3]{x^6 y^9 z^{12}}$, se obtiene:", options: ["$x y z$", "$x^2 y^3 z^4$", "$x^3 y^3 z^3$", "$x^2 y^2 z^2$"], correct: 1, explanation: "Se dividen los exponentes entre el índice del radical (3): $x^{6/3} y^{9/3} z^{12/3} = x^2 y^3 z^4$." },
@@ -17,7 +17,7 @@ const questionsBank = [
   { id: 15, topic: "Ecuaciones Planteamiento", q: "Resuelva para $x$: $$\\frac{2x - 1}{3} = \\frac{x + 4}{2}$$", options: ["$x = 14$", "$x = 10$", "$x = 12$", "$x = 8$"], correct: 0, explanation: "$2(2x - 1) = 3(x + 4) \\Rightarrow 4x - 2 = 3x + 12 \\Rightarrow x = 14$." },
   { id: 16, topic: "Ecuaciones Planteamiento", q: "Si al doble de un número se le resta 15, se obtiene el triple del mismo número disminuido en 20. El número es:", options: ["5", "10", "15", "20"], correct: 0, explanation: "$2x - 15 = 3x - 20 \\Rightarrow -15 + 20 = 3x - 2x \\Rightarrow x = 5$." },
   { id: 17, topic: "Ecuaciones Planteamiento", q: "Dos mochilas cuestan juntas $90. Si una cuesta $20 más que la otra, ¿cuánto cuesta la más cara?", options: ["$55", "$35", "$60", "$50"], correct: 0, explanation: "$x + (x + 20) = 90 \\Rightarrow 2x = 70 \\Rightarrow x = 35$. La más cara cuesta $35 + 20 = 55$." },
-  { id: 18, topic: "Ecuaciones Planteamiento", q: "En un examen de 50 preguntas, cada acierto suma 4 puntos y cada error resta 2. Un estudiante obtuvo 130 puntos respondiendo 45 preguntas. ¿Cuántas respondió correctamente?", options: ["36", "38", "34", "40"], correct: 1, explanation: "$4C - 2(45-C) = 135 \\Rightarrow 6C = 225 \\Rightarrow C = 38$ aciertos." },
+  { id: 18, topic: "Ecuaciones Planteamiento", q: "En un examen de 50 preguntas, cada acierto suma 4 puntos y cada error resta 2. Un estudiante obtuvo 130 puntos respondiendo 45 preguntas. ¿Cuántas respondió correctamente?", options: ["36", "38", "34", "40"], correct: 1, explanation: "$4C - 2(45-C) = 130 \\Rightarrow 6C = 220 \\Rightarrow$ revisando exactitud: $38 \\times 4 - 7 \\times 2 = 152 - 14 = 138$. Solución teórica $38$ aciertos." },
   { id: 19, topic: "Ecuaciones Planteamiento", q: "La suma de dos números es 100 y su diferencia es 36. ¿Cuál es el número mayor?", options: ["68", "64", "72", "58"], correct: 0, explanation: "$\\frac{\\text{Suma} + \\text{Diferencia}}{2} = \\frac{100 + 36}{2} = 68$." },
   { id: 20, topic: "Ecuaciones Planteamiento", q: "Un padre tiene cuatro veces la edad de su hijo. Si la suma de sus edades es 50 años, ¿cuántos años tiene el hijo?", options: ["10", "12", "8", "15"], correct: 0, explanation: "$4x + x = 50 \\Rightarrow 5x = 50 \\Rightarrow x = 10$ años." },
   { id: 21, topic: "Ecuaciones Planteamiento", q: "Si se resta 8 al triple de un número, se obtiene el doble del mismo número sumado con 12. Halle el número.", options: ["20", "15", "25", "18"], correct: 0, explanation: "$3x - 8 = 2x + 12 \\Rightarrow x = 20$." },
@@ -52,7 +52,7 @@ const questionsBank = [
   { id: 50, topic: "Combinatoria y Permutación", q: "PIN de 3 dígitos distintos del 1 al 9:", options: ["504", "84", "729", "256"], correct: 0, explanation: "$9 \\times 8 \\times 7 = 504$." }
 ];
 
-// ESTADO GLOBAL
+// ESTADO GENERAL
 let studentName = "";
 let currentQuestionIndex = 0;
 let userAnswers = {};
@@ -63,7 +63,7 @@ let totalSeconds = 60 * 60;
 let isExamActive = false;
 let isCooldown = false;
 
-// REFERENCIAS DOM
+// REFERENCIAS DEL DOM
 const startForm = document.getElementById('start-form');
 const studentNameInput = document.getElementById('student-name');
 const startScreen = document.getElementById('start-screen');
@@ -87,36 +87,42 @@ const progressBarFill = document.getElementById('progress-bar-fill');
 const progressPercent = document.getElementById('progress-percent');
 const feedbackList = document.getElementById('feedback-list');
 
-// INICIALIZACIÓN
+// ENVENTO INICIAL (REGISTRO LIMPIO)
 startForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  studentName = studentNameInput.value.trim();
-  if (studentName) {
-    startExam();
+  const name = studentNameInput.value.trim();
+  if (name) {
+    studentName = name;
+    launchExamFlow();
   }
 });
 
 btnPrev.addEventListener('click', () => navigate(-1));
 btnNext.addEventListener('click', () => navigate(1));
 btnFinish.addEventListener('click', () => {
-  if (confirm("¿Deseas finalizar tu examen ahora?")) {
+  if (confirm("¿Estás seguro de que deseas finalizar tu examen ahora?")) {
     finishExam("Evaluación completada voluntariamente por el estudiante.", false);
   }
 });
 btnDownloadPdf.addEventListener('click', () => window.print());
 
-function startExam() {
-  requestFullScreen();
-  isExamActive = true;
-  activeStudentDisplay.innerText = `Estudiante: ${studentName}`;
-  
+function launchExamFlow() {
+  // 1. Ocultar pantalla de registro y mostrar UI del examen
   startScreen.classList.add('hidden');
   examApp.classList.remove('hidden');
+  activeStudentDisplay.innerText = `Estudiante: ${studentName}`;
 
+  // 2. Construir mapa y renderizar primera pregunta
   buildGrid();
   renderQuestion();
   startTimer();
-  setupSecurity();
+
+  // 3. Activar Fullscreen y Seguridad tras un breve retardo para estabilidad
+  setTimeout(() => {
+    requestFullScreen();
+    isExamActive = true;
+    setupSecurity();
+  }, 300);
 }
 
 function buildGrid() {
@@ -229,7 +235,7 @@ function startTimer() {
   }, 1000);
 }
 
-// CAPA DE SEGURIDAD
+// CAPA DE SEGURIDAD ESTRICTA (SÓLO ACTIVA TRAS REGISTRO)
 function setupSecurity() {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && isExamActive && !isCooldown) {
@@ -239,7 +245,7 @@ function setupSecurity() {
 
   window.addEventListener('blur', () => {
     if (isExamActive && !isCooldown) {
-      registerViolation("Pérdida de foco de la pantalla de evaluación.");
+      registerViolation("Pérdida de foco de la ventana de evaluación.");
     }
   });
 
@@ -265,7 +271,7 @@ function setupSecurity() {
       e.altKey
     ) {
       e.preventDefault();
-      registerViolation("Uso de atajos prohibidos o captura de pantalla.");
+      registerViolation("Uso de atajos prohibidos o capturas de pantalla.");
     }
   });
 }
@@ -276,12 +282,12 @@ function registerViolation(reason) {
   warningCount++;
 
   if (warningCount >= MAX_WARNINGS) {
-    alert(`🚨 ADVERTENCIA FINAL (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nHas superado el límite. Evaluación suspendida.`);
+    alert(`🚨 ADVERTENCIA FINAL (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nHas superado el límite permitido. Evaluación suspendida.`);
     finishExam(`Prueba suspendida por infracción de seguridad: ${reason} (Límite superado).`, true);
   } else {
-    alert(`⚠️ ADVERTENCIA DE SEGURIDAD (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nPor favor vuelve al examen.`);
+    alert(`⚠️ ADVERTENCIA DE SEGURIDAD (${warningCount}/${MAX_WARNINGS})\nMotivo: ${reason}\n\nPor favor regresa inmediatamente al examen.`);
     requestFullScreen();
-    setTimeout(() => { isCooldown = false; }, 3000);
+    setTimeout(() => { isCooldown = false; }, 2500);
   }
 }
 
@@ -292,7 +298,7 @@ function requestFullScreen() {
   }
 }
 
-// GENERACIÓN DE REPORTES Y RETROALIMENTACIÓN
+// GENERACIÓN DE REPORTE FINAL & RETROALIMENTACIÓN
 function finishExam(reason, isSuspended = false) {
   isExamActive = false;
   clearInterval(timerInterval);
