@@ -1,13 +1,12 @@
 :root {
-  --bg-color: #f4f7f9;
+  --bg-color: #f8fafc;
   --card-bg: #ffffff;
-  --text-main: #1e293b;
+  --text-main: #0f172a;
   --text-muted: #64748b;
   --primary-blue: #2563eb;
   --primary-hover: #1d4ed8;
-  --accent-light: #eff6ff;
+  --accent-light: #f0f6ff;
   --border-color: #e2e8f0;
-  --danger: #ef4444;
   --dark-navy: #0f172a;
 }
 
@@ -30,11 +29,11 @@ body {
   display: none !important;
 }
 
-/* Modal Overlay Pantallas de Inicio / Resultados */
+/* Modal Overlay */
 .overlay-card {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.7);
+  background-color: rgba(15, 23, 42, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,45 +44,52 @@ body {
 .card-body {
   background: var(--card-bg);
   padding: 40px;
-  border-radius: 16px;
-  max-width: 650px;
+  border-radius: 12px;
+  max-width: 600px;
   width: 100%;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .card-body h1 {
-  font-size: 1.4rem;
-  margin-bottom: 8px;
+  font-size: 1.3rem;
+  font-weight: 800;
   color: var(--dark-navy);
 }
 
 .card-body h2 {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
+  margin-top: 4px;
   margin-bottom: 20px;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .instructions {
   background: var(--bg-color);
-  padding: 20px;
+  padding: 16px;
   border-radius: 8px;
   margin: 20px 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border: 1px solid var(--border-color);
 }
 
 .instructions ul {
   margin-left: 20px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
-/* Header Superior */
+/* Layout Principal */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .top-header {
   background: var(--card-bg);
   border-bottom: 1px solid var(--border-color);
-  padding: 12px 32px;
+  padding: 16px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,33 +98,18 @@ body {
 .brand-title {
   font-size: 1.1rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .brand-subtitle {
   font-size: 0.75rem;
   color: var(--text-muted);
   display: block;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.close-icon-btn {
-  background: #64748b;
-  color: white;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
+  margin-top: 2px;
 }
 
 .timer-badge {
-  background: var(--bg-color);
+  background: #f1f5f9;
   border: 1px solid var(--border-color);
   padding: 6px 16px;
   border-radius: 20px;
@@ -126,17 +117,24 @@ body {
   align-items: center;
   gap: 8px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
-/* Grid Layout Principal */
 .main-container {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-  padding: 24px 32px;
-  max-width: 1440px;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  padding: 32px 40px;
+  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
+}
+
+/* Panel Izquierdo */
+.question-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .question-card {
@@ -144,30 +142,33 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 32px;
-  min-height: 480px;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
 }
 
 .question-header {
   display: flex;
   justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-blue);
   margin-bottom: 24px;
 }
 
-.q-number, .q-topic {
-  color: var(--primary-blue);
-  font-weight: 600;
-}
-
 .q-text {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   line-height: 1.6;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
+  color: var(--text-main);
 }
 
+/* Opciones de Respuesta */
 .options-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-top: auto;
 }
 
 .option-item {
@@ -175,10 +176,11 @@ body {
   align-items: center;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 10px;
+  padding: 14px 20px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s ease-in-out;
+  min-height: 60px;
 }
 
 .option-item:hover {
@@ -193,8 +195,9 @@ body {
 }
 
 .option-badge {
-  background: var(--bg-color);
+  background: #f1f5f9;
   font-weight: 700;
+  font-size: 0.85rem;
   width: 32px;
   height: 32px;
   border-radius: 6px;
@@ -210,27 +213,32 @@ body {
   color: white;
 }
 
+.option-label {
+  font-size: 0.95rem;
+  width: 100%;
+}
+
 .bottom-nav {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
 }
 
 .btn-outline {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   padding: 10px 24px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
 .btn-outline:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* Sidebar / Rejilla */
+/* Panel Derecho (Sidebar) */
 .sidebar-panel {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -241,27 +249,29 @@ body {
   height: fit-content;
 }
 
-.progress-box { margin-bottom: 24px; }
+.progress-box {
+  margin-bottom: 24px;
+}
 
 .progress-label {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .progress-bar-bg {
-  background: var(--bg-color);
-  height: 8px;
-  border-radius: 4px;
+  background: #f1f5f9;
+  height: 6px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   background: var(--primary-blue);
   height: 100%;
-  transition: width 0.3s;
+  transition: width 0.2s ease;
 }
 
 .grid-title {
@@ -274,19 +284,23 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-  max-height: 340px;
+  max-height: 380px;
   overflow-y: auto;
   padding-right: 4px;
 }
 
 .grid-btn {
   aspect-ratio: 1;
-  background: var(--card-bg);
+  background: #f8fafc;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.85rem;
   font-weight: 600;
+  color: var(--text-main);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .grid-btn.current {
@@ -296,9 +310,9 @@ body {
 }
 
 .grid-btn.answered {
-  background: #dbeafe;
-  border-color: #93c5fd;
-  color: #1e40af;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: var(--primary-blue);
 }
 
 .btn-finish-exam {
@@ -307,8 +321,9 @@ body {
   color: white;
   border: none;
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 700;
+  font-size: 0.9rem;
   cursor: pointer;
   width: 100%;
 }
